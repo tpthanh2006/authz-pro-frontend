@@ -36,6 +36,7 @@ html {
 body {
   font-family: var(--font-family);
   background: #eee;
+  padding-top: 7rem; /* Same as header height */
 }
 
 section {
@@ -47,6 +48,7 @@ section {
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 20px;
+  position: relative; /* Add this */
 }
 
 .--pad {
@@ -56,7 +58,7 @@ section {
 }
 
 .header {
-  padding-top: 2rem;
+  padding-top: 0; /* Remove previous padding */
 }
 
 /* UTILITY CLASSES */

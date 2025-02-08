@@ -24,6 +24,7 @@ import {
 } from "./redux/features/auth/authSlice";
 
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
 function App() {
   const dispatch = useDispatch();
