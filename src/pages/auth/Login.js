@@ -10,6 +10,7 @@ import { validateEmail } from "../../redux/features/auth/authService";
 import {
   login,
   RESET,
+  sendLoginCode
 } from "../../redux/features/auth/authSlice";
 import Loader from "../../components/loader/Loader";
 
@@ -24,7 +25,7 @@ const Login = () => {
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, isLoggedIn, isSuccess, message} = useSelector((state) => state.auth)
+  const { isLoading, isLoggedIn, isSuccess, message, isError, twoFactor } = useSelector((state) => state.auth)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,8 +55,13 @@ const Login = () => {
       navigate("/profile");
     }
 
+    if (isError && twoFactor) {
+      dispatch(sendLoginCode(email));
+      navigate(`/loginWithCode/${email}`);
+    }
+
     dispatch(RESET());
-  }, [isLoggedIn, isSuccess, dispatch, navigate]);
+  }, [isLoggedIn, isSuccess, isError, twoFactor, email, dispatch, navigate]);
 
   return (
     <div className={`container ${styles.auth}`}>
