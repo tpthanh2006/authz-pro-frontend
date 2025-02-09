@@ -2,9 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 7rem); /* Subtract header height */
   background-color: #eee;
-  padding: 2rem 0;
+  min-height: 80vh;
 }
 
 .hero-text {
@@ -20,19 +19,16 @@
     color: #fff;
   }
 }
-
 .hero-image {
   width: 50%;
   text-align: center;
-  img {
-    width: 80%;
-  }
 }
-
+.hero-image img {
+  width: 80%;
+}
 @media screen and (max-width: 600px) {
   .hero {
     flex-direction: column;
-    padding: 1rem;
   }
 
   .hero-text {
@@ -44,11 +40,9 @@
     margin: auto;
     text-align: center;
   }
-  
   .hero-image {
     width: 100%;
-    margin-top: 2rem;
-    img {
+    &img {
       width: 100%;
     }
   }

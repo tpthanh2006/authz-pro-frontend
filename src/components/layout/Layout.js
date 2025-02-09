@@ -4,13 +4,13 @@ import Header from "../header/Header";
 
 const Layout = ({ children }) => {
   return (
-    <div className="layout">
+    <>
       <Header />
-      <div className="main-content --flex-center">
+      <div className="--pad" style={{ minHeight: "85vh" }}>
         {children}
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
