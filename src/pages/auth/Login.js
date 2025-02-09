@@ -10,9 +10,11 @@ import { validateEmail } from "../../redux/features/auth/authService";
 import {
   login,
   RESET,
-  sendLoginCode
+  sendLoginCode,
+  loginWithGoogle
 } from "../../redux/features/auth/authSlice";
 import Loader from "../../components/loader/Loader";
+import { GoogleLogin } from "@react-oauth/google";
 
 const initialState = {
   email: "",
@@ -63,6 +65,15 @@ const Login = () => {
     dispatch(RESET());
   }, [isLoggedIn, isSuccess, isError, twoFactor, email, dispatch, navigate]);
 
+  const googleLogin = async (credentialResponse) => {
+    console.log(credentialResponse);
+    await dispatch(
+      loginWithGoogle(
+        {userToken: credentialResponse.credential}
+      )
+    )
+  }
+
   return (
     <div className={`container ${styles.auth}`}>
       {isLoading && <Loader />}
@@ -73,8 +84,14 @@ const Login = () => {
           </div>
           <h2>Login</h2>
           <div className="--flex-center">
-            <button className="--btn --btn-google">Login With Google
-            </button>
+            {/* <button className="--btn --btn-google">Login With Google</button> */}
+            <GoogleLogin
+              onSuccess={googleLogin}
+              onError={() => {
+                console.log("Login Failed");
+                toast.error("Login Failed");
+              }}
+            />
           </div>
           <br />
           <p className="--text-center --fw-bold">or</p>

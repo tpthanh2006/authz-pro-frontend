@@ -1,14 +1,12 @@
 import React from 'react'
-import Header from '../../components/header/Header';
-import Footer from '../../components/footer/Footer';
+import Layout from '../../components/layout/Layout'
 import { Link } from "react-router-dom";
 import "./Home.scss";
 import loginImg from "../../assets/login.svg";
 
 const Home = () => {
   return (
-    <div>
-      <Header/>
+    <Layout>
       <section className='container hero'>
         <div className="hero-text">
           <h2>Ultimate MERN Stack Authentication System</h2>
@@ -18,7 +16,6 @@ const Home = () => {
             <button className='--btn --btn-danger'>
               <Link to="/register">Register</Link>
             </button>
-
             <button className='--btn --btn-primary'>
               <Link to="/login">Login</Link>
             </button>
@@ -29,8 +26,7 @@ const Home = () => {
           <img src={loginImg} alt="Auth"/>
         </div>
       </section>
-      <Footer/>
-    </div>
+    </Layout>
   )
 }
 
