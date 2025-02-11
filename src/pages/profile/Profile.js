@@ -54,26 +54,34 @@ const Profile = () => {
   const saveProfile = async (e) => {
     e.preventDefault();
     let imageURL;
+
     try {
       if (
-        profileImage !== null &&
+        profileImage && 
         (profileImage.type === "image/jpeg" ||
-          profileImage.type === "image/jpg" ||
-          profileImage.type === "image/png")
+         profileImage.type === "image/jpg" ||
+         profileImage.type === "image/png")
       ) {
         const image = new FormData();
         image.append("file", profileImage);
-        image.append("cloud_name", cloud_name);
-        image.append("upload_preset", upload_preset);
+        image.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
+        image.append("upload_preset", process.env.REACT_APP_UPLOAD_PRESET);
 
         // Save image to Cloudinary
         const response = await fetch(
-          cloudinary_url,
-          { method: "post", body: image }
+          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`,
+          {
+            method: "post",
+            body: image,
+          }
         );
+
+        if (!response.ok) {
+          throw new Error("Image upload failed");
+        }
+
         const imgData = await response.json();
-        console.log(imgData);
-        imageURL = imgData.url.toString();
+        imageURL = imgData.secure_url; // Use secure_url instead of url
       }
 
       // Save profile to MongoDB
@@ -81,12 +89,15 @@ const Profile = () => {
         name: profile.name,
         phone: profile.phone,
         bio: profile.bio,
-        photo: profileImage ? imageURL : profile.photo,
+        photo: imageURL || profile.photo,
       };
 
       dispatch(updateUser(userData));
+      toast.success("Profile updated successfully");
+      
     } catch (error) {
-      toast.error(error.message);
+      console.error("Upload Error:", error);
+      toast.error("Error uploading image. Please try again.");
     }
   };
 
